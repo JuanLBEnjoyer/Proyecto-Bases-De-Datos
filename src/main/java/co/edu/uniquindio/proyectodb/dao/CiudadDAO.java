@@ -17,12 +17,16 @@ import co.edu.uniquindio.proyectodb.model.Ciudad;
 public class CiudadDAO {
 
     // Constantes SQL
-    private static final String SQL_INSERTAR = "INSERT INTO Ciudad (nombre, idPaisAnfitrion) VALUES (?, ?)";
-    private static final String SQL_BUSCAR_POR_ID = "SELECT id_ciudad, nombre, idPaisAnfitrion FROM Ciudad WHERE id_ciudad = ?";
-    private static final String SQL_LISTAR_POR_PAIS = "SELECT id_ciudad, nombre, idPaisAnfitrion FROM Ciudad WHERE idPaisAnfitrion = ? ORDER BY nombre";
+    private static final String SQL_INSERTAR = "INSERT INTO Ciudad (nombre, id_pais_anfitrion) VALUES (?, ?)";
 
-    private static final String SQL_LISTAR_TODOS = "SELECT id_ciudad, nombre, idPaisAnfitrion FROM Ciudad ORDER BY nombre";
-    private static final String SQL_ACTUALIZAR = "UPDATE Ciudad SET nombre = ?, idPaisAnfitrion = ? WHERE id_ciudad = ?";
+    private static final String SQL_BUSCAR_POR_ID = "SELECT id_ciudad, nombre, id_pais_anfitrion FROM Ciudad WHERE id_ciudad = ?";
+
+    private static final String SQL_LISTAR_POR_PAIS = "SELECT id_ciudad, nombre, id_pais_anfitrion FROM Ciudad WHERE id_pais_anfitrion = ? ORDER BY nombre";
+
+    private static final String SQL_LISTAR_TODOS = "SELECT id_ciudad, nombre, id_pais_anfitrion FROM Ciudad ORDER BY nombre";
+
+    private static final String SQL_ACTUALIZAR = "UPDATE Ciudad SET nombre = ?, id_pais_anfitrion = ? WHERE id_ciudad = ?";
+
     private static final String SQL_ELIMINAR = "DELETE FROM Ciudad WHERE id_ciudad = ?";
 
     /**
@@ -162,7 +166,7 @@ public class CiudadDAO {
      */
 
     private Ciudad mapearResultSet(ResultSet rs) throws SQLException {
-        return new Ciudad(rs.getInt("id_ciudad"), rs.getString("nombre"), rs.getInt("idPaisAnfitrion"));
+        return new Ciudad(rs.getInt("id_ciudad"), rs.getString("nombre"), rs.getInt("id_pais_anfitrion"));
     }
 
 }

@@ -17,9 +17,9 @@ import co.edu.uniquindio.proyectodb.model.Grupo;
 public class GrupoDAO {
 
     // Constantes SQL
-    private static final String SQL_INSERTAR = "INSERT INTO Grupo (nombre) VALUES (?)";
-    private static final String SQL_BUSCAR_POR_ID = "SELECT id_grupo, nombre FROM Grupo WHERE id_grupo = ?";
-    private static final String SQL_LISTAR_TODOS = "SELECT id_grupo, nombre FROM Grupo ORDER BY nombre";
+    private static final String SQL_INSERTAR = "INSERT INTO Grupo (nombre_grupo) VALUES (?)";
+    private static final String SQL_BUSCAR_POR_ID = "SELECT id_grupo, nombre_grupo FROM Grupo WHERE id_grupo = ?";
+    private static final String SQL_LISTAR_TODOS = "SELECT id_grupo, nombre_grupo FROM Grupo ORDER BY nombre_grupo";
 
     public boolean insertar(Grupo grupo) {
         try {
@@ -70,7 +70,7 @@ public class GrupoDAO {
     }
 
     private Grupo mapearResultSet(ResultSet rs) throws SQLException {
-        return new Grupo(rs.getInt("idGrupo"), rs.getString("nombreGrupo"));
+        return new Grupo(rs.getInt("id_grupo"), rs.getString("nombre_grupo"));
     }
 
 }

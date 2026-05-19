@@ -17,17 +17,17 @@ import co.edu.uniquindio.proyectodb.model.Estadio;
 public class EstadioDAO {
 
     // Constantes SQL
-    private static final String SQL_INSERTAR = "INSERT INTO Estadio (nombre, capacidad, idCiudad) VALUES (?, ?, ?)";
+    private static final String SQL_INSERTAR = "INSERT INTO Estadio (nombre, capacidad, id_ciudad) VALUES (?, ?, ?)";
 
-    private static final String SQL_BUSCAR_POR_ID = "SELECT id_estadio, nombre, capacidad, idCiudad FROM Estadio WHERE id_estadio = ?";
+    private static final String SQL_BUSCAR_POR_ID = "SELECT id_estadio, nombre, capacidad, id_ciudad FROM Estadio WHERE id_estadio = ?";
 
-    private static final String SQL_LISTAR_POR_CIUDAD = "SELECT id_estadio, nombre, capacidad, idCiudad FROM Estadio WHERE idCiudad = ? ORDER BY nombre";
+    private static final String SQL_LISTAR_POR_CIUDAD = "SELECT id_estadio, nombre, capacidad, id_ciudad FROM Estadio WHERE id_ciudad = ? ORDER BY nombre";
 
-    private static final String SQL_LISTAR_POR_CAPACIDAD_MINIMA = "SELECT id_estadio, nombre, capacidad, idCiudad FROM Estadio WHERE capacidad >= ? ORDER BY capacidad DESC";
+    private static final String SQL_LISTAR_POR_CAPACIDAD_MINIMA = "SELECT id_estadio, nombre, capacidad, id_ciudad FROM Estadio WHERE capacidad >= ? ORDER BY capacidad DESC";
 
-    private static final String SQL_LISTAR_TODOS = "SELECT id_estadio, nombre, capacidad, idCiudad FROM Estadio ORDER BY nombre";
+    private static final String SQL_LISTAR_TODOS = "SELECT id_estadio, nombre, capacidad, id_ciudad FROM Estadio ORDER BY nombre";
 
-    private static final String SQL_ACTUALIZAR = "UPDATE Estadio SET nombre = ?, capacidad = ?, idCiudad = ? WHERE id_estadio = ?";
+    private static final String SQL_ACTUALIZAR = "UPDATE Estadio SET nombre = ?, capacidad = ?, id_ciudad = ? WHERE id_estadio = ?";
 
     private static final String SQL_ELIMINAR = "DELETE FROM Estadio WHERE id_estadio = ?";
 
@@ -193,7 +193,7 @@ public class EstadioDAO {
         estadio.setIdEstadio(rs.getInt("id_estadio"));
         estadio.setNombre(rs.getString("nombre"));
         estadio.setCapacidad(rs.getInt("capacidad"));
-        estadio.setIdCiudad(rs.getInt("idCiudad"));
+        estadio.setIdCiudad(rs.getInt("id_ciudad"));
         return estadio;
     }
 }

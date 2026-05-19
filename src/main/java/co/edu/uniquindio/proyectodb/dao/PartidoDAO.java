@@ -16,10 +16,9 @@ public class PartidoDAO {
             "id_equipo_local, id_equipo_visitante, goles_local, goles_visitante";
 
     private static final String SQL_INSERTAR = "INSERT INTO Partido (fecha_hora, id_estadio, id_grupo, id_equipo_local, id_equipo_visitante) "
-            +
-            "VALUES (?, ?, ?, ?, ?)";
+            + "VALUES (?, ?, ?, ?, ?)";
 
-    private static final String SQL_BUSCAR_POR_ID = "SELECT " + COLS + "FROM Partido WHERE id_partido = ?";
+    private static final String SQL_BUSCAR_POR_ID = "SELECT " + COLS + " FROM Partido WHERE id_partido = ?";
 
     private static final String SQL_LISTAR_TODOS = "SELECT " + COLS + " FROM Partido ORDER BY fecha_hora";
 

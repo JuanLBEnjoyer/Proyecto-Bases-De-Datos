@@ -20,32 +20,29 @@ public class DirectorTecnicoDAO {
 
     // Constantes SQL
 
-    private static final String COLS = "nombre, fecha_nacimiento, nacionalidad, id_equipo";
+    private static final String COLS = "id_dt, nombre, fecha_nacimiento, nacionalidad, id_equipo";
 
     private static final String SQL_INSERTAR = "INSERT INTO DirectorTecnico (nombre, fecha_nacimiento, nacionalidad, id_equipo) VALUES (?, ?, ?, ?)";
 
-    private static final String SQL_BUSCAR_POR_ID = "SELECT" + COLS
-            + "FROM DirectorTecnico WHERE id_director_tecnico = ?";
+    private static final String SQL_BUSCAR_POR_ID = "SELECT " + COLS + " FROM DirectorTecnico WHERE id_dt = ?";
 
-    private static final String SQL_LISTAR_TODOS = "SELECT" + COLS + "FROM DirectorTecnico ORDER BY nombre";
+    private static final String SQL_LISTAR_TODOS = "SELECT " + COLS + " FROM DirectorTecnico ORDER BY nombre";
 
-    private static final String SQL_LISTAR_POR_EQUIPO = "SELECT" + COLS +
-            " FROM DirectorTecnico WHERE id_equipo = ? ORDER BY nombre";
+    private static final String SQL_LISTAR_POR_EQUIPO = "SELECT " + COLS
+            + " FROM DirectorTecnico WHERE id_equipo = ? ORDER BY nombre";
 
     private static final String SQL_LISTAR_POR_NACIONALIDAD = "SELECT " + COLS
-            + "FROM DirectorTecnico WHERE nacionalidad = ? ORDER BY nombre";
+            + " FROM DirectorTecnico WHERE nacionalidad = ? ORDER BY nombre";
 
-    private static final String SQL_LISTAR_MAYORES_DE = "SELECT" + COLS
-            + "FROM DirectorTecnico WHERE DATEDIFF(year,fecha_nacimiento,GETDATE()) > ?"
-            + "ORDER BY fecha_nacimiento ASC";
+    private static final String SQL_LISTAR_MAYORES_DE = "SELECT " + COLS
+            + " FROM DirectorTecnico WHERE DATEDIFF(year, fecha_nacimiento, GETDATE()) > ? ORDER BY fecha_nacimiento ASC";
 
-    private static final String SQL_LISTAR_MENORES_DE = "SELECT" + COLS
-            + "FROM DirectorTecnico WHERE DATEDIFF(year,fecha_nacimiento,GETDATE()) < ?"
-            + "ORDER BY fecha_nacimiento DESC";
+    private static final String SQL_LISTAR_MENORES_DE = "SELECT " + COLS
+            + " FROM DirectorTecnico WHERE DATEDIFF(year, fecha_nacimiento, GETDATE()) < ? ORDER BY fecha_nacimiento DESC";
 
-    private static final String SQL_ACTUALIZAR = "UPDATE DirectorTecnico SET nombre = ?, fecha_nacimiento = ?, nacionalidad = ?, id_equipo = ? WHERE id_director_tecnico = ?";
+    private static final String SQL_ACTUALIZAR = "UPDATE DirectorTecnico SET nombre = ?, fecha_nacimiento = ?, nacionalidad = ?, id_equipo = ? WHERE id_dt = ?";
 
-    private static final String SQL_ELIMINAR = "DELETE FROM DirectorTecnico WHERE id_director_tecnico = ?";
+    private static final String SQL_ELIMINAR = "DELETE FROM DirectorTecnico WHERE id_dt = ?";
 
     // CREATE
 
