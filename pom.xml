@@ -26,12 +26,14 @@
       <scope>test</scope>
     </dependency>
     
+    <!--libreria para base de datos SQL Server-->
     <dependency>
       <groupId>com.microsoft.sqlserver</groupId>
       <artifactId>mssql-jdbc</artifactId>
       <version>12.4.2.jre11</version>
     </dependency>
 
+  <!--Libreria para generar pdfs-->
     <dependency>
       <groupId>com.itextpdf</groupId>
       <artifactId>itextpdf</artifactId>
