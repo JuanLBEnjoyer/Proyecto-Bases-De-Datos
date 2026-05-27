@@ -190,6 +190,31 @@ public class PartidoDAO {
         return false;
     }
 
+    /**
+     * Actualiza todos los campos de un partido existente.
+     *
+     * @param partido Objeto Partido con los datos actualizados
+     * @return true si se actualizó con éxito
+     */
+    public boolean actualizar(Partido partido) {
+        try {
+            Connection con = ConexionDB.getInstancia().getConnection();
+            PreparedStatement ps = con.prepareStatement("UPDATE Partido SET fecha_hora = ?, id_estadio = ?, id_grupo = ?, id_equipo_local = ?, id_equipo_visitante = ?, goles_local = ?, goles_visitante = ? WHERE id_partido = ?");
+            ps.setTimestamp(1, Timestamp.valueOf(partido.getFechaHora()));
+            ps.setInt(2, partido.getIdEstadio());
+            ps.setInt(3, partido.getIdGrupo());
+            ps.setInt(4, partido.getIdEquipoLocal());
+            ps.setInt(5, partido.getIdEquipoVisitante());
+            ps.setInt(6, partido.getGolesLocal());
+            ps.setInt(7, partido.getGolesVisitante());
+            ps.setInt(8, partido.getIdPartido());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("[PartidoDAO] Error al actualizar partido: " + e.getMessage());
+        }
+        return false;
+    }
+
     /*
      * DELETE
      */

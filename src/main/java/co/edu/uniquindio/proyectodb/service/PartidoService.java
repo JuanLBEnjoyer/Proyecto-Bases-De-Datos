@@ -144,6 +144,37 @@ public class PartidoService {
         return exito;
     }
 
+    /**
+     * Actualiza un partido existente con las validaciones de negocio correspondientes.
+     *
+     * @param partido objeto Partido con los datos actualizados
+     * @return true si la actualización fue exitosa
+     */
+    public boolean actualizar(Partido partido) {
+        if (partido.getFechaHora() == null) {
+            System.out.println("[PartidoService] La fecha y hora son obligatorias.");
+            return false;
+        }
+        if (partido.getIdEquipoLocal() == partido.getIdEquipoVisitante()) {
+            System.out.println("[PartidoService] El equipo local y visitante no pueden ser el mismo.");
+            return false;
+        }
+        if (equipoDAO.buscarPorId(partido.getIdEquipoLocal()) == null ||
+            equipoDAO.buscarPorId(partido.getIdEquipoVisitante()) == null) {
+            System.out.println("[PartidoService] Uno de los equipos no existe.");
+            return false;
+        }
+        if (estadioDAO.buscarPorId(partido.getIdEstadio()) == null) {
+            System.out.println("[PartidoService] El estadio no existe.");
+            return false;
+        }
+        if (grupoDAO.buscarPorId(partido.getIdGrupo()) == null) {
+            System.out.println("[PartidoService] El grupo no existe.");
+            return false;
+        }
+        return partidoDAO.actualizar(partido);
+    }
+
     // DELETE
 
     /**
