@@ -695,4 +695,88 @@ public class ApiController {
         }).collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
     }
+
+    private final PdfService pdfService = new PdfService();
+
+    @GetMapping("/reports/{type}/download")
+    public ResponseEntity<?> downloadReport(
+            @PathVariable String type,
+            @RequestParam(required = false) String posicion,
+            @RequestParam(required = false) BigDecimal valorMin,
+            @RequestParam(required = false) BigDecimal valorMax,
+            @RequestParam(required = false) String nacionalidad,
+            @RequestParam(required = false) String grupo,
+            @RequestParam(required = false) Integer equipo) {
+        
+        try {
+            java.io.File tempFile = java.io.File.createTempFile("reporte-", ".pdf");
+            try {
+                if ("players".equalsIgnoreCase(type)) {
+                    List<Jugador> jugadores = reporteService.todosLosJugadores();
+                    if ((posicion != null && !posicion.isBlank()) || valorMin != null || valorMax != null || equipo != null) {
+                        final String pos = posicion;
+                        final Integer eq = equipo;
+                        jugadores = jugadores.stream().filter(p -> {
+                            if (pos != null && !pos.isBlank() && !pos.equalsIgnoreCase(p.getPosicion())) return false;
+                            if (valorMin != null && p.getValorMercado().compareTo(valorMin.multiply(new BigDecimal("1000000"))) < 0) return false;
+                            if (valorMax != null && p.getValorMercado().compareTo(valorMax.multiply(new BigDecimal("1000000"))) > 0) return false;
+                            if (eq != null && p.getIdEquipo() != eq) return false;
+                            return true;
+                        }).collect(Collectors.toList());
+                    }
+                    pdfService.generarReporteJugadores(jugadores, "Reporte de Jugadores", tempFile.getAbsolutePath());
+                } else if ("directors".equalsIgnoreCase(type)) {
+                    List<DirectorTecnico> dts = reporteService.todosLosDT();
+                    if ((nacionalidad != null && !nacionalidad.isBlank()) || equipo != null) {
+                        final String nac = nacionalidad;
+                        final Integer eq = equipo;
+                        dts = dts.stream().filter(d -> {
+                            if (nac != null && !nac.isBlank() && !nac.equalsIgnoreCase(d.getNacionalidad())) return false;
+                            if (eq != null && d.getIdEquipo() != eq) return false;
+                            return true;
+                        }).collect(Collectors.toList());
+                    }
+                    pdfService.generarReporteDirectoresTecnicos(dts, "Reporte de Directores Técnicos", tempFile.getAbsolutePath());
+                } else if ("matches".equalsIgnoreCase(type)) {
+                    List<Partido> partidos = reporteService.todosLosPartidos();
+                    if ((grupo != null && !grupo.isBlank()) || equipo != null) {
+                        final String grp = grupo;
+                        final Integer eq = equipo;
+                        partidos = partidos.stream().filter(m -> {
+                            if (grp != null && !grp.isBlank()) {
+                                String mGrupoName = getGrupoNombreById(m.getIdGrupo());
+                                if (!mGrupoName.equalsIgnoreCase(grp)) return false;
+                            }
+                            if (eq != null && m.getIdEquipoLocal() != eq && m.getIdEquipoVisitante() != eq) return false;
+                            return true;
+                        }).collect(Collectors.toList());
+                    }
+                    pdfService.generarReportePartidos(partidos, "Reporte de Partidos", tempFile.getAbsolutePath());
+                } else if ("bitacora".equalsIgnoreCase(type)) {
+                    List<Bitacora> bitacora = reporteService.todasLasSesiones();
+                    pdfService.generarReporteBitacora(bitacora, "Reporte de Bitácora", tempFile.getAbsolutePath());
+                } else {
+                    return ResponseEntity.badRequest().body("Tipo de reporte no soportado");
+                }
+                
+                byte[] pdfBytes = java.nio.file.Files.readAllBytes(tempFile.toPath());
+                
+                org.springframework.http.HttpHeaders headers = new org.springframework.http.HttpHeaders();
+                headers.setContentType(org.springframework.http.MediaType.APPLICATION_PDF);
+                headers.setContentDispositionFormData("attachment", "reporte_" + type + ".pdf");
+                headers.setContentLength(pdfBytes.length);
+                
+                return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+                
+            } finally {
+                if (tempFile.exists()) {
+                    tempFile.delete();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al generar el PDF: " + e.getMessage());
+        }
+    }
 }
